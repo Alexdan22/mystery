@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-bs-theme="light" data-color-theme="Blue_Theme" data-layout="vertical">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Favicon icon-->
+  <link rel="shortcut icon" type="image/png" href="../assets/images/logos/favicon.png" />
+
+  <!-- Core Css -->
+  <link rel="stylesheet" href="../assets/css/styles.css" />
+  <title>Mystery Traders</title>
+</head>
+
+<body>
+  <!-- Preloader -->
+  <div class="preloader">
+    <img src="../assets/images/logos/favicon.png" alt="loader" class="lds-ripple img-fluid" />
+  </div>
+  <div id="main-wrapper">
+    <!-- Sidebar Start -->
+    <aside class="side-mini-panel with-vertical">
+      <div><!-- ---------------------------------- -->
+        <!-- Start Vertical Layout Sidebar -->
+        <!-- ---------------------------------- -->
+        <div class="iconbar">
+          <div>
+            <div class="mini-nav">
+              <div class="brand-logo d-flex align-items-center justify-content-between justify-content-lg-center">
+                <a href="../main/index.html" class="text-nowrap logo-img">
+                  <img src="../assets/images/logos/logo-icon.png" width="60" alt="Logo" />
+                </a>
+                <a href="javascript:void(0)" class="sidebartoggler close-btn ms-auto text-decoration-none fs-5 d-flex d-xl-none align-items-center justify-content-center text-danger">
+                  <i class="material-symbols-outlined fs-5">cancel</i>
+                </a>
+              </div>
+              <div class="sidebarmenu">
+                <!-- ---------------------------------- -->
+                <!-- Dashboard -->
+                <!-- ---------------------------------- -->
+                <nav class="sidebar-nav" id="menu-right-mini-1" data-simplebar>
+                  <ul class="sidebar-menu" id="sidebarnav">
+                    <!-- ---------------------------------- -->
+                    <!-- Home -->
+                    <!-- ---------------------------------- -->
+                    <li class="nav-small-cap">
+                      <span class="hide-menu">Dashboards</span>
+                    </li>
+                    <!-- ---------------------------------- -->
+                    <!-- Dashboard -->
+                    <!-- ---------------------------------- -->
+                    <li class="sidebar-item">
+                      <a class="sidebar-link" href="/dashboard" aria-expanded="false">
+                        <iconify-icon icon="solar:widget-add-line-duotone" class=""></iconify-icon>
+                        <span class="hide-menu">Dashboard</span>
+                      </a>
+                    </li>
+                    <li class="sidebar-item">
+                      <a class="sidebar-link" href="/profile" aria-expanded="false">
+                        <iconify-icon icon="solar:shield-user-line-duotone" class=""></iconify-icon>
+                        <span class="hide-menu">Profile</span>
+                      </a>
+                    </li>
+                    <li class="sidebar-item">
+                      <a class="sidebar-link" href="/pricing" aria-expanded="false">
+                        <iconify-icon icon="solar:dollar-line-duotone" class=""></iconify-icon>
+                        <span class="hide-menu">Pricing</span>
+                      </a>
+                    </li>
+
+                    <li class="sidebar-item">
+                      <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                        <iconify-icon icon="solar:bill-list-line-duotone"></iconify-icon>
+                        <span class="hide-menu">Transaction</span>
+                      </a>
+                      <ul aria-expanded="false" class="collapse first-level">
+                        <li class="sidebar-item">
+                          <a class="sidebar-link" href="/transaction?type=profit">
+                            <span class="icon-small"></span>
+                            Total Profit
+                          </a>
+                        </li>
+                        <li class="sidebar-item">
+                          <a class="sidebar-link" href="/transaction?type=returns">
+                            <span class="icon-small"></span>
+                            Returns
+                          </a>
+                        </li>
+                        <li class="sidebar-item">
+                          <a class="sidebar-link" href="/transaction?type=others">
+                            <span class="icon-small"></span>
+                            Others
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+  
+                    
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <!--  Sidebar End -->
+    <div class="page-wrapper">
+      <!--  Header Start -->
+      <header class="topbar">
+        <div class="with-vertical"><!-- ---------------------------------- -->
+          <!-- Start Vertical Layout Header -->
+          <!-- ---------------------------------- -->
+          <nav class="navbar navbar-expand-lg p-0">
+            <ul class="navbar-nav">
+                <li class="nav-item nav-icon-hover ms-n3">
+                <a class="nav-link sidebartoggler" id="headerCollapse" href="javascript:void(0)">
+                    <iconify-icon icon="solar:hamburger-menu-line-duotone" class="fs-7"></iconify-icon>
+                </a>
+                </li>
+            </ul>
+
+            <div class="d-block d-lg-none">
+              <a href="/dashboard"><img src="../assets/images/logos/banner.png" class="dark-logo" width="140" alt="MaterialM-img" /></a>
+            </div>
+            <a class="navbar-toggler p-0 border-0 nav-icon-hover" href="javascript:void(0)" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="p-2">
+                <i class="ti ti-dots fs-7"></i>
+              </span>
+            </a>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+              <div class="d-flex align-items-center justify-content-between">
+                <ul class="navbar-nav flex-row mx-auto ms-lg-auto align-items-center justify-content-center">
+                  <!-- ------------------------------- -->
+                  <!-- start profile Dropdown -->
+                  <!-- ------------------------------- -->
+                  <li class="nav-item dropdown">
+                    <a class="nav-link" href="javascript:void(0)" id="drop1" aria-expanded="false">
+                      <div class="d-flex align-items-center gap-2 lh-base">
+                        <img src="../assets/images/profile/user-1.jpg" class="rounded-circle" width="35" height="35" alt="MaterialM-img" />
+                      </div>
+                    </a>
+                    <div class="dropdown-menu content-dd dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop1">
+                      <div class="profile-dropdown position-relative" data-simplebar>
+                        <div class="py-3 px-7 pb-0">
+                          <h5 class="mb-0 fs-5 fw-semibold">User Profile</h5>
+                        </div>
+                        <div class="d-flex align-items-center py-9 mx-7 border-bottom">
+                          <img src="../assets/images/profile/user-1.jpg" class="rounded-circle" width="80" height="80" alt="MaterialM-img" />
+                          <div class="ms-3">
+                            <h5 class="mb-0 fs-4"><%=name%></h5>
+                            <span class="mb-1 d-block"><%=userID%></span>
+                            <p class="mb-0 d-flex align-items-center gap-2">
+                              <i class="ti ti-mail fs-4"></i> <%=email%>
+                            </p>
+                          </div>
+                        </div>
+                        <div class="message-body">
+                          <a href="/profile" class="py-8 px-7 mt-8 d-flex align-items-center">
+                            <span class="d-flex align-items-center justify-content-center bg-primary-subtle text-primary rounded round">
+                              <iconify-icon icon="solar:wallet-2-line-duotone" class="fs-7"></iconify-icon>
+                            </span>
+                            <div class="w-75 v-middle ps-3">
+                              <h5 class="mb-1 fs-3 fw-medium">My Profile</h5>
+                              <span class="fs-2 d-block text-body-secondary">Account Settings</span>
+                            </div>
+                          </a>
+                          <a href="/profile" class="py-8 px-7 d-flex align-items-center">
+                            <span class="d-flex align-items-center justify-content-center bg-success-subtle text-success rounded round">
+                              <iconify-icon icon="solar:tuning-square-2-line-duotone" class="fs-7"></iconify-icon>
+                            </span>
+                            <div class="w-75 v-middle ps-3">
+                              <h5 class="mb-1 fs-3 fw-medium">Security </h5>
+                              <span class="fs-2 d-block text-body-secondary">Security and Safety</span>
+                            </div>
+                          </a>
+                        </div>
+                        <div class="d-grid py-4 px-7 pt-8">
+                          <a href="/log-out" class="btn btn-primary">Log Out</a>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <!-- ------------------------------- -->
+                  <!-- end profile Dropdown -->
+                  <!-- ------------------------------- -->
+                </ul>
+              </div>
+            </div>
+          </nav>
+          <!-- ---------------------------------- -->
+          <!-- End Vertical Layout Header -->
+          <!-- ---------------------------------- -->
+
+          <!-- ------------------------------- -->
+          <!-- apps Dropdown in Small screen -->
+          <!-- ------------------------------- -->
+          
+      </header>
+      <!--  Header End -->
+
+
+      <div class="body-wrapper">
+        <div class="container-fluid">   
+          <div class="card">
+            <ul class="nav nav-pills user-profile-tab" id="pills-tab" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link position-relative rounded-0 active d-flex align-items-center justify-content-center bg-transparent fs-3 py-3" id="pills-account-tab" data-bs-toggle="pill" data-bs-target="#pills-account" type="button" role="tab" aria-controls="pills-account" aria-selected="true">
+                  <i class="ti ti-user-circle me-2 fs-6"></i>
+                  <span class="d-none d-md-block">Account</span>
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent fs-3 py-3" id="pills-bills-tab" data-bs-toggle="pill" data-bs-target="#pills-bills" type="button" role="tab" aria-controls="pills-bills" aria-selected="false">
+                  <i class="ti ti-article me-2 fs-6"></i>
+                  <span class="d-none d-md-block">Billing</span>
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent fs-3 py-3" id="pills-security-tab" data-bs-toggle="pill" data-bs-target="#pills-security" type="button" role="tab" aria-controls="pills-security" aria-selected="false">
+                  <i class="ti ti-lock me-2 fs-6"></i>
+                  <span class="d-none d-md-block">Security</span>
+                </button>
+              </li>
+            </ul>
+            <div class="card-body">
+              <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-account" role="tabpanel" aria-labelledby="pills-account-tab" tabindex="0">
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="card w-100 border position-relative overflow-hidden mb-0">
+                        <div class="card-body p-4">
+                          <h4 class="card-title">Personal Details</h4>
+                          <p class="card-subtitle mb-4">To change your personal detail , edit and save from here</p>
+                          <form>
+                            <div class="row">
+                              <div class="col-lg-6">
+                                <div class="mb-3">
+                                  <label for="exampleInputtext" class="form-label">Your Name</label>
+                                  <input type="text" class="form-control" id="exampleInputtext" readonly value="<%=name%>">
+                                </div>
+                                <div class="mb-3">
+                                  <label for="exampleInputtext1" class="form-label">Email</label>
+                                  <input type="email" class="form-control" id="exampleInputtext1" readonly placeholder="<%=email%>">
+                                </div>
+                                <div class="mb-3">
+                                  <label for="exampleInputtext1" class="form-label">User ID</label>
+                                  <input type="text" class="form-control" id="exampleInputtext1" readonly placeholder="<%=userID%>">
+                                </div>
+                              </div>
+                              <% if (mobile === null) { %>
+                                <div class="col-lg-6">
+                                  <div class="mb-3">
+                                    <label for="exampleInputtext3" class="form-label">Mobile Number</label>
+                                    <input type="text" class="form-control" id="exampleInputtext3" placeholder="+91 12345 65478">
+                                  </div>
+                                </div>
+                                <div class="col-12">
+                                  <div class="d-flex align-items-center justify-content-end mt-4 gap-6">
+                                    <button type="button" class="btn btn-primary" id="saveButton">Save</button>
+                                    <button type="button" class="btn bg-danger-subtle text-danger">Cancel</button>
+                                  </div>
+                                </div>
+                                <% } else { %>
+                                <div class="col-lg-6">
+                                  <div class="mb-3">
+                                    <label for="exampleInputtext3" class="form-label">Mobile Number</label>
+                                    <input type="text" class="form-control" id="exampleInputtext3" readonly value="<%=mobile%>">
+                                  </div>
+                                </div>
+                                <% } %>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="pills-bills" role="tabpanel" aria-labelledby="pills-bills-tab" tabindex="0">
+                  <div class="row justify-content-center">
+                    <%if(status === 'Active') {%>
+                      <div class="col-lg-9">
+                          <div class="card border shadow-none">
+                            <div class="card-body p-4">
+                              <h4 class="card-title">Current Plan : <span class="text-success"><%=status%></span>
+                              </h4>
+                              <p class="card-subtitle">Thanks for being a premium member and supporting our development.</p>
+                              <div class="d-flex align-items-center justify-content-between mt-7 mb-3">
+                                <div class="d-flex align-items-center gap-3">
+                                  <div class="text-bg-light rounded-1 p-6 d-flex align-items-center justify-content-center">
+                                    <i class="ti ti-package text-dark d-block fs-7" width="22" height="22"></i>
+                                  </div>
+                                  <div>
+                                    <p class="mb-0">Validity</p>
+                                    <h5 class="fs-4 fw-semibold"><%=package.validity%> days left</h5>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="d-flex align-items-center gap-3">
+                                <a href="/pricing" class="btn btn-primary">Recharge</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    <%}else{%>
+                    <div class="col-lg-9">
+                      <div class="card border shadow-none">
+                        <div class="card-body p-4">
+                          <h4 class="card-title">Current Plan : <span class="text-body-secondary"><%=status%></span>
+                          </h4>
+                          <p class="card-subtitle">No Active Plan found for the account</p>
+                          <div class="d-flex align-items-center justify-content-between mt-7 mb-3">
+                            <div class="d-flex align-items-center gap-3">
+                              <div class="text-bg-light rounded-1 p-6 d-flex align-items-center justify-content-center">
+                                <i class="ti ti-package text-dark d-block fs-7" width="22" height="22"></i>
+                              </div>
+                              <div>
+                                <p class="mb-0 text-success">Recommended</p>
+                                <h5 class="fs-4 fw-semibold">4500.00</h5>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="d-flex align-items-center gap-3">
+                            <a href="/pricing" class="btn btn-primary">Recharge</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <%}%>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="pills-security" role="tabpanel" aria-labelledby="pills-security-tab" tabindex="0">
+                  <div class="row">
+                    <div class="col-lg-8">
+                      <div class="card border shadow-none">
+                        <div class="card-body p-4">
+                          <h4 class="card-title mb-3">DERIV API</h4>
+                          <div class="d-flex align-items-center justify-content-between pb-7 border-bottom">
+                            <p class="card-subtitle mb-0">Get your API token from Deriv platfrom and enter below.</p>
+                          </div>
+                          <br>
+                          <div class=" align-items-center justify-content-between py-3">
+                            <%if(apiToken === null) {%>
+                                <div>
+                                  <input type="text" id="apiToken" name="apiToken" class="form-control" placeholder="API Token">
+                                </div>
+                                <br>
+                                <div>
+                                  <h5 class="fs-4 fw-semibold mb-3">Required permissions</h5>
+                                  <p class="mb-2"><i class="ti ti-checkbox text-info mx-1"></i>Trade</p>
+                                  <p class="mb-2"><i class="ti ti-checkbox text-info mx-1"></i>Read</p>
+                                  <p class="mb-2"><i class="ti ti-checkbox text-info mx-1"></i>Trading Information</p>
+                                </div>
+                              </div>
+                              
+                              <button class="btn btn-primary" id="confirmButton">Confirm</button>
+                            <%}else{%>
+                              <div>
+                                <input type="text" id="apiToken" name="apiToken" class="form-control" value="<%=apiToken%>">
+                              </div>
+                              <br>
+                              <div>
+                                <h5 class="fs-4 fw-semibold mb-3">Required permissions</h5>
+                                <p class="mb-2"><i class="ti ti-checkbox text-info mx-1"></i>Trade</p>
+                                <p class="mb-2"><i class="ti ti-checkbox text-info mx-1"></i>Read</p>
+                                <p class="mb-2"><i class="ti ti-checkbox text-info mx-1"></i>Trading Information</p>
+                              </div>
+                            </div>
+                            <%}%>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="alert-Tab" class="mb-10"></div>
+          </div>
+        </div>
+      </div>
+      <script>
+  function handleColorTheme(e) {
+    document.documentElement.setAttribute("data-color-theme", e);
+  }
+</script>
+    </div>
+
+
+  </div>
+  <div class="dark-transparent sidebartoggler"></div>
+  <!-- Import Js Files -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const saveButton = document.getElementById('saveButton');
+      const confirmButton = document.getElementById('confirmButton');
+  
+      if (saveButton) {
+        saveButton.addEventListener('click', function() {
+          const mobileNumber = document.getElementById('exampleInputtext3').value.trim();
+  
+          if (mobileNumber) {
+            fetch('/update-mobile', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ mobile: mobileNumber })
+            })
+            .then(response => response.json())
+            .then(data => {
+              if (data.success) {
+                document.getElementById('alert-Tab').innerHTML = `
+                  <div class="mb-2 alert bg-dark-subtle text-white alert-dismissible fade show mb-0" role="alert">
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                    ${data.message}
+                  </div>`;
+                
+                var div = document.getElementById("alert-Tab");
+                div.style.opacity = "1";
+                div.style.display = "block";
+                document.getElementById('exampleInputtext3').readOnly = true;
+              } else {
+                alert('Failed to update mobile number.');
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              alert('An error occurred while updating the mobile number.');
+            });
+          } else {
+            document.getElementById('alert-Tab').innerHTML = `
+              <div class="mb-2 alert bg-dark-subtle text-white alert-dismissible fade show mb-0" role="alert">
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                <strong>Warning - </strong> Please enter a valid mobile number.
+              </div>`;
+            
+            var div = document.getElementById("alert-Tab");
+            div.style.opacity = "1";
+            div.style.display = "block";
+          }
+        });
+      }
+  
+      if (confirmButton) {
+        confirmButton.addEventListener('click', function() {
+          const apiToken = document.getElementById('apiToken').value.trim();
+  
+          if (apiToken) {
+            fetch('/update-api-token', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ apiToken: apiToken })
+            })
+            .then(response => response.json())
+            .then(data => {
+              if (data.success) {
+                document.getElementById('alert-Tab').innerHTML = `
+                  <div class="mb-2 alert bg-dark-subtle text-white alert-dismissible fade show mb-0" role="alert">
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                    ${data.message}
+                  </div>`;
+                
+                var div = document.getElementById("alert-Tab");
+                div.style.opacity = "1";
+                div.style.display = "block";
+                document.getElementById('apiToken').readOnly = true;
+              } else {
+                document.getElementById('alert-Tab').innerHTML = `
+                  <div class="mb-2 alert bg-dark-subtle text-white alert-dismissible fade show mb-0" role="alert">
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                    ${data.message}
+                  </div>`;
+                
+                var div = document.getElementById("alert-Tab");
+                div.style.opacity = "1";
+                div.style.display = "block";
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              alert('An error occurred while updating the API token.');
+            });
+          } else {
+            document.getElementById('alert-Tab').innerHTML = `
+              <div class="mb-2 alert bg-dark-subtle text-white alert-dismissible fade show mb-0" role="alert">
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                <strong>Warning - </strong> Please enter a valid API token.
+              </div>`;
+            
+            var div = document.getElementById("alert-Tab");
+            div.style.opacity = "1";
+            div.style.display = "block";
+          }
+        });
+      }
+    });
+  </script>
+  <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/libs/simplebar/dist/simplebar.min.js"></script>
+  <script src="../assets/js/theme/app.init.js"></script>
+  <script src="../assets/js/theme/theme.js"></script>
+  <script src="../assets/js/theme/app.min.js"></script>
+  <script src="../assets/js/theme/sidebarmenu.js"></script>
+
+  <!-- solar icons -->
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+</body>
+
+</html>
