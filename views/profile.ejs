@@ -344,6 +344,7 @@
                           <br>
                           <div class=" align-items-center justify-content-between py-3">
                             <%if(apiToken === null) {%>
+                              <%if(status === 'Active') {%>
                                 <div>
                                   <input type="text" id="apiToken" name="apiToken" class="form-control" placeholder="API Token">
                                 </div>
@@ -357,9 +358,25 @@
                               </div>
                               
                               <button class="btn btn-primary" id="confirmButton">Confirm</button>
+                                <%}else{%>
+                                  <div>
+                                    <input type="text" disabled id="apiToken" name="apiToken" class="form-control" placeholder="API Token">
+                                  </div>
+                                  <br>
+                                  <div>
+                                    <h5 class="fs-4 fw-semibold mb-3">Required permissions</h5>
+                                    <p class="mb-2"><i class="ti ti-checkbox text-info mx-1"></i>Trade</p>
+                                    <p class="mb-2"><i class="ti ti-checkbox text-info mx-1"></i>Read</p>
+                                    <p class="mb-2"><i class="ti ti-checkbox text-info mx-1"></i>Trading Information</p>
+                                  </div>
+                                </div>
+                                
+                                <button class="btn btn-primary" disabled id="confirmButton">Confirm</button>
+                                  <%}%>
+
                             <%}else{%>
                               <div>
-                                <input type="text" id="apiToken" name="apiToken" class="form-control" value="<%=apiToken%>">
+                                <input type="text" id="apiToken" name="apiToken" readonly class="form-control" value="<%=apiToken%>">
                               </div>
                               <br>
                               <div>
@@ -497,6 +514,19 @@
             div.style.display = "block";
           }
         });
+      }
+
+      
+    });
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      let inputField = document.getElementById("apiToken");
+      let token = inputField.value;
+  
+      if (token.length > 4) {
+        let maskedToken = token.slice(0, 4) + "*".repeat(token.length - 8) + token.slice(-4);
+        inputField.value = maskedToken;
       }
     });
   </script>

@@ -226,27 +226,20 @@ const Threshold = new mongoose.model('Threshold', profitSchema);
 
 //Automated Functions
 var job = schedule.scheduleJob('30 1 * * *', async(scheduledTime) => {
-//   try {
-//     const cooldown = await User.find({status: 'Active'});
-//     for (const users of cooldown) {
-//       if (users.package.status === 'Cooldown') {
-//         await User.updateOne({ email: users.email }, { $set: { 
-//           package: {
-//             stage:users.package.stage,
-//             days:users.package.days,
-//             status: 'Active',
-//             time:{
-//               date:users.package.time.date,
-//               month:users.package.time.month,
-//               year:users.package.time.year
-//             }
-//           }
-//         }});
-//       }
-//     }
-//   } catch (error) {
-//     console.log(error);
-//   }
+  try {
+    const cooldown = await User.find({status: 'Active'});
+    for (const users of cooldown) {
+      if (users.package.status === 'Active') {
+        users.package.validity -= 1;
+        if (users.package.validity === 0) {
+          users.status = 'Inactive';
+          users.package.status = 'Expired';
+        }
+      }
+    }
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 
@@ -689,7 +682,8 @@ app.post('/api/register', async (req, res) => {
           year: year
         },
         package: {
-            validity: 0
+            validity: 0,
+            status: "Inactive",
         },
         transaction: []
       });
@@ -855,9 +849,6 @@ app.post("/api/paymentVerification", async (req, res) => {
                 message: "Unexpected error occurred, Kindly login again." 
             });
         }
-        console.log(req.body);
-        console.log(foundUser);
-        console.log(foundPromoter);
         if(promo !== 'null'){
             if(foundUser.coupon !== 'redeemed'){
                 foundPromoter.transaction.push({
@@ -877,6 +868,7 @@ app.post("/api/paymentVerification", async (req, res) => {
         if (validityMap[amount]) {
             foundUser.package.validity += validityMap[amount];
             foundUser.status = "Active";
+            foundUser.package.status = "Active";
             foundUser.coupon = 'redeemed';
             foundUser.package.time = { date, month, year };
             await foundUser.save();
