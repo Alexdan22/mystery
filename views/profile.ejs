@@ -399,10 +399,10 @@
         </div>
       </div>
       <script>
-  function handleColorTheme(e) {
-    document.documentElement.setAttribute("data-color-theme", e);
-  }
-</script>
+        function handleColorTheme(e) {
+          document.documentElement.setAttribute("data-color-theme", e);
+        }
+      </script>
     </div>
 
 
@@ -486,6 +486,7 @@
                 div.style.opacity = "1";
                 div.style.display = "block";
                 document.getElementById('apiToken').readOnly = true;
+                document.getElementById('confirmButton').disabled = true;
               } else {
                 document.getElementById('alert-Tab').innerHTML = `
                   <div class="mb-2 alert bg-dark-subtle text-white alert-dismissible fade show mb-0" role="alert">

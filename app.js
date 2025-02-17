@@ -246,6 +246,9 @@ var job = schedule.scheduleJob('30 1 * * *', async(scheduledTime) => {
 //ROUTES
 app.get("/", async (req, res) =>{
   const alert = "false";
+  const users = await User.findOne({email:'meganathan11100@gmail.com'});
+  console.log(users);
+  
   res.render("home", {alert});
 });
 
