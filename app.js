@@ -92,6 +92,8 @@ const userSchema = new mongoose.Schema({
     required: true
   },
 
+  tradeClose: Boolean,
+
   password: {
     type: String,
     required: true
@@ -246,8 +248,6 @@ var job = schedule.scheduleJob('30 1 * * *', async(scheduledTime) => {
 //ROUTES
 app.get("/", async (req, res) =>{
   const alert = "false";
-  const users = await User.findOne({email:'meganathan11100@gmail.com'});
-  console.log(users);
   
   res.render("home", {alert});
 });
@@ -284,7 +284,7 @@ app.get("/dashboard", async (req, res) => {
 
   try {
     if (!apiToken) {
-      return res.render("dashboard", { name, email, userID, earnings, package, alert, time, status, profit: null });
+      return res.render("dashboard", { name, email, userID, earnings, package, alert, time, status, profit: null, tradeClose: foundUser.tradeClose || false });
     }
 
     const ws = new WebSocket("wss://ws.binaryws.com/websockets/v3?app_id=1089");
@@ -329,7 +329,7 @@ app.get("/dashboard", async (req, res) => {
   const uniqueDate = `${date}-${month}-${year}_${apiToken}`;
   const profit = await Threshold.findOne({uniqueDate})
 
-  res.render("dashboard", { name, email, userID, earnings, package, alert, time, status, profit: profit || null });
+  res.render("dashboard", { name, email, userID, earnings, package, alert, time, status, profit: profit || null, tradeClose: foundUser.tradeClose || false  });
 });
 
 app.get("/profile", async (req, res) =>{
@@ -434,7 +434,7 @@ app.get("/paymentGateway", async (req, res) =>{
 app.get('/generateQR', async (req, res) => {
   try {
     // Fetch data from MongoDB
-    const { amount } = req.query;
+    const amount = Number(req.query.amount);
     
     const data = await Data.findOne();
     if (!data) {
@@ -444,11 +444,12 @@ app.get('/generateQR', async (req, res) => {
       qr.save();
       return res.status(404).send('No data found');
     }
+    
 
     // Generate QR code
-    if(amount !== null || amount === '' || amount === undefined){
-
-        const textToQr = `upi://pay?ver=01&mode=19&pa=${data.text}&pn=YUMEKO&tr=RZPYOlFEyT39ewjePiqrv2&cu=INR&mc=5651&qrMedium=04&tn=PaymenttoYUMEKO&am=${amount}.00`;
+    if(!isNaN(amount) && amount > 0){
+      
+        const textToQr = `upi://pay?ver=01&mode=19&pa=${data.text}&pn=YUMEKO&tr=RZPYOlFEyT39ewjePiqrv2&cu=INR&mc=5651&qrMedium=04&tn=PaymenttoYUMEKO&am=${amount.toFixed(2)}`;
         QRCode.toDataURL(textToQr, (err, url) => {
           if (err) {
             return res.status(500).send('Error generating QR code');
@@ -456,7 +457,6 @@ app.get('/generateQR', async (req, res) => {
           res.status(200).send({ url });
         });
     }else{
-      
     const textToQr = `upi://pay?ver=01&mode=19&pa=${data.text}&pn=YUMEKO&tr=RZPYOlFEyT39ewjePiqrv2&cu=INR&mc=5651&qrMedium=04&tn=PaymenttoYUMEKO`;
     QRCode.toDataURL(textToQr, (err, url) => {
       if (err) {
@@ -641,6 +641,54 @@ if(!req.session.admin){
 
 });
 
+app.get('/closeTrade' , async (req, res) => {
+  const activeUsers = await User.find({status: 'Active'});
+  let year = currentTimeInTimeZone.year;
+  let month = currentTimeInTimeZone.month;
+  let date = currentTimeInTimeZone.day;
+
+  for (const user of activeUsers) {
+    if(user.apiToken){
+      const todayTradeClose = await Threshold.findOne({uniqueDate:`${date}-${month}-${year}_${user.apiToken}`});
+      if(todayTradeClose){
+        //Calculate Trade PnL
+
+        //Update Api trade ready status
+        const api = await Api.findOne({apiToken:user.apiToken});
+        api.readyForTrade = false; 
+        await api.save();
+
+        //Update User balance 
+        user.earnings.totalProfit += todayTradeClose.pnl;
+        user.earnings.profit = todayTradeClose.pnl;
+        user.earnings.returns = Math.floor(todayTradeClose.pnl * 0.60 * 100) / 100;
+        user.earnings.commission = Math.floor(todayTradeClose.pnl * 0.40 * 100) / 100;
+        user.earnings.totalReturn += Math.floor(todayTradeClose.pnl * 0.60 * 100) / 100;
+        user.earnings.totalCommission += Math.floor(todayTradeClose.pnl * 0.40 * 100) / 100;
+        user.tradeClose = true;
+        user.transaction.push(
+          {
+            type: 'Credit',
+            from: 'Profit',
+            amount:todayTradeClose.pnl,
+            status: 'Success',
+            time: { date, month, year },
+            trnxId
+          },
+          {
+            type: 'Credit',
+            from: 'Returns',
+            amount: Math.floor(todayTradeClose.pnl * 0.60 * 100) / 100,
+            status: 'Success',
+            time: { date, month, year },
+            trnxId
+          }
+      );
+        await user.save();
+      }
+    }
+  }
+});
 
 
 
@@ -875,6 +923,7 @@ app.post("/api/paymentVerification", async (req, res) => {
             foundUser.coupon = 'redeemed';
             foundUser.package.time = { date, month, year };
             await foundUser.save();
+            await foundUser.updateOne({email:foundUser.email}, {$set:{tradeClose:false}});
         }
 
         
@@ -908,6 +957,110 @@ app.post("/api/paymentVerification", async (req, res) => {
             message: "Internal server error" 
         });
     }
+});
+
+app.post("/api/paymentVerification", async (req, res) => {
+  const timeZone = 'Asia/Kolkata';
+  const currentTime = DateTime.now().setZone(timeZone);
+  const { year, month, day: date } = currentTime;
+  const {trnxId} = req.body;
+  const foundUser = await User.findOne({ email: req.session.user.email });
+
+  if (!req.session.user) {
+      return res.status(200).send({ redirect: true });
+  }
+
+  if (!trnxId) {
+      return res.status(200).send({ 
+          alertType: "Warning", 
+          alert: "true", 
+          message: "Kindly fill all the given details" 
+      });
+  }
+
+  if (String(trnxId).length !== 12) {
+      return res.status(200).send({ 
+          alertType: "Warning", 
+          alert: "true", 
+          message: "Enter valid UTR number" 
+      });
+  }
+
+  try {
+      const foundPayment = await Payment.findOne({ rrn: trnxId });
+
+      if (!foundPayment) {
+          return res.status(200).send({ 
+              alertType: "Warning", 
+              alert: "true", 
+              message: "Invalid UTR number, Kindly enter the correct details" 
+          });
+      }
+
+      if (foundPayment.status !== 'captured') {
+          return res.status(200).send({ 
+              alertType: "Warning", 
+              alert: "true", 
+              message: "Transaction already processed." 
+          });
+      }
+
+      if (foundPayment.amount !== (foundUser.earnings.commision * 90)) {
+          
+          return res.status(200).send({ 
+              alertType: "Warning", 
+              alert: "true", 
+              message: "Amount and UTR number missmatch." 
+          });
+      }
+
+      if (!foundUser) {
+          return res.status(200).send({ 
+              alertType: "Warning", 
+              alert: "true", 
+              message: "Unexpected error occurred, Kindly login again." 
+          });
+      }
+      const api = await Api.findOne({email:foundUser.apiToken});
+      
+      foundUser.tradeClose = true;
+      foundUser.earnings.profit = 0;
+      foundUser.earnings.returns = 0;
+      foundUser.earnings.commission = 0;
+      api.readyForTrade = true;
+      await api.save();
+
+      
+
+      // Add transaction record
+      foundUser.transaction.push({
+          type: 'Paid',
+          from: 'Commission',
+          amount:foundUser.earnings.commision * 90,
+          status: 'Success',
+          time: { date, month, year },
+          trnxId
+      });
+      await foundUser.save();
+
+      foundPayment.status = 'redeemed';
+      foundPayment.email = foundUser.email;
+      await foundPayment.save();
+
+      return res.status(200).send({ 
+          alertType: "Success", 
+          alert: "true", 
+          message: "Commission paid successfully" 
+      });
+
+  } catch (err) {
+      console.error(err);
+      return res.status(500).send({ 
+          alertType: "Error", 
+          alert: "true", 
+          message: "Internal server error" 
+      });
+  }
 });
 
 app.post('/update-api-token', async (req, res) => {
