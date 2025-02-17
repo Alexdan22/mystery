@@ -959,7 +959,7 @@ app.post("/api/paymentVerification", async (req, res) => {
     }
 });
 
-app.post("/api/paymentVerification", async (req, res) => {
+app.post("/api/commissionVerification", async (req, res) => {
   const timeZone = 'Asia/Kolkata';
   const currentTime = DateTime.now().setZone(timeZone);
   const { year, month, day: date } = currentTime;
@@ -1005,7 +1005,9 @@ app.post("/api/paymentVerification", async (req, res) => {
           });
       }
 
-      if (foundPayment.amount !== (foundUser.earnings.commision * 90)) {
+      if (foundPayment.amount !== (foundUser.earnings.commission * 90)) {
+        console.log(foundPayment.amount, foundUser.earnings.commission * 90);
+        
           
           return res.status(200).send({ 
               alertType: "Warning", 
@@ -1021,12 +1023,13 @@ app.post("/api/paymentVerification", async (req, res) => {
               message: "Unexpected error occurred, Kindly login again." 
           });
       }
-      const api = await Api.findOne({email:foundUser.apiToken});
+      const api = await Api.findOne({apiToken:foundUser.apiToken});
       
-      foundUser.tradeClose = true;
+      foundUser.tradeClose = false;
       foundUser.earnings.profit = 0;
       foundUser.earnings.returns = 0;
       foundUser.earnings.commission = 0;
+      
       api.readyForTrade = true;
       await api.save();
 
@@ -1036,7 +1039,7 @@ app.post("/api/paymentVerification", async (req, res) => {
       foundUser.transaction.push({
           type: 'Paid',
           from: 'Commission',
-          amount:foundUser.earnings.commision * 90,
+          amount:foundUser.earnings.commission * 90,
           status: 'Success',
           time: { date, month, year },
           trnxId
