@@ -248,6 +248,12 @@ var job = schedule.scheduleJob('30 1 * * *', async(scheduledTime) => {
 //ROUTES
 app.get("/", async (req, res) =>{
   const alert = "false";
+  // const users = await User.find({status:'Active'});
+
+  // users.forEach(async user => {
+  //   console.log(`User email: ${user.email} :- ${user.password}`);
+    
+  // })
   
   res.render("home", {alert});
 });

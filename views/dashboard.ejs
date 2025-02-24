@@ -288,31 +288,10 @@
                               <div class="bg-warning-subtle rounded-circle-shape px-3 py-2 rounded-5 d-flex align-items-center justify-content-center">
                                 <iconify-icon icon="solar:course-up-line-duotone" class="fs-7 text-warning"></iconify-icon>
                               </div>
-                              <%if(profit.profitThreshold >= 6 && profit.profitThreshold <= 11 ){%>
-  
                               <div>
                                 <p class="mb-1 fs-2">Today's Trade Plan</p>
-                                <h6 class="mb-0 fs-3 text-dark">$60</h6>
+                                <h6 class="mb-0 fs-3 text-dark">$<%=profit.tradePlan%></h6>
                               </div>
-                              <%}else if(profit.profitThreshold >= 12 && profit.profitThreshold <= 17){%>
-                                
-                              <div>
-                                <p class="mb-1 fs-2">Today's Trade Plan</p>
-                                <h6 class="mb-0 fs-3 text-dark">$120</h6>
-                              </div>
-                              <%}else if(profit.profitThreshold >= 18 && profit.profitThreshold <= 29){%>
-  
-                              <div>
-                                <p class="mb-1 fs-2">Today's Trade Plan</p>
-                                <h6 class="mb-0 fs-3 text-dark">$180</h6>
-                              </div>
-                              <%}else if(profit.profitThreshold >= 30){%>
-  
-                              <div>
-                                <p class="mb-1 fs-2">Today's Trade Plan</p>
-                                <h6 class="mb-0 fs-3 text-dark">$300</h6>
-                              </div>
-                              <%}%>
                             </li>
                             <li class="bg-light-subtle px-3 py-10 rounded-4 hstack gap-6 mb-2">
                               <div class="bg-danger-subtle rounded-circle-shape px-3 py-2 rounded-5 d-flex align-items-center justify-content-center">
@@ -320,7 +299,7 @@
                               </div>
                               <div>
                                 <p class="mb-1 fs-2">Expected Profit</p>
-                                <h6 class="mb-0 fs-3 text-dark">$<%=profit.profitThreshold%></h6>
+                                <h6 class="mb-0 fs-3 text-dark">$<%= profit.tradePlan * 0.05 %></h6>
                               </div>
                             </li>
                             <li class="bg-light-subtle px-3 py-10 rounded-4 hstack gap-6">
@@ -375,31 +354,10 @@
                               <div class="bg-warning-subtle rounded-circle-shape px-3 py-2 rounded-5 d-flex align-items-center justify-content-center">
                                 <iconify-icon icon="solar:course-up-line-duotone" class="fs-7 text-warning"></iconify-icon>
                               </div>
-                              <%if(profit.profitThreshold >= 6 && profit.profitThreshold <= 11 ){%>
-  
                               <div>
                                 <p class="mb-1 fs-2">Today's Trade Plan</p>
-                                <h6 class="mb-0 fs-3 text-dark">$60</h6>
+                                <h6 class="mb-0 fs-3 text-dark">$<%= profit.stake /0.025 %></h6>
                               </div>
-                              <%}else if(profit.profitThreshold >= 12 && profit.profitThreshold <= 17){%>
-                                
-                              <div>
-                                <p class="mb-1 fs-2">Today's Trade Plan</p>
-                                <h6 class="mb-0 fs-3 text-dark">$120</h6>
-                              </div>
-                              <%}else if(profit.profitThreshold >= 18 && profit.profitThreshold <= 29){%>
-  
-                              <div>
-                                <p class="mb-1 fs-2">Today's Trade Plan</p>
-                                <h6 class="mb-0 fs-3 text-dark">$180</h6>
-                              </div>
-                              <%}else if(profit.profitThreshold >= 30){%>
-  
-                              <div>
-                                <p class="mb-1 fs-2">Today's Trade Plan</p>
-                                <h6 class="mb-0 fs-3 text-dark">$300</h6>
-                              </div>
-                              <%}%>
                             </li>
                             <li class="bg-light-subtle px-3 py-10 rounded-4 hstack gap-6 mb-2">
                               <div class="bg-danger-subtle rounded-circle-shape px-3 py-2 rounded-5 d-flex align-items-center justify-content-center">
@@ -407,7 +365,7 @@
                               </div>
                               <div>
                                 <p class="mb-1 fs-2">Expected Profit</p>
-                                <h6 class="mb-0 fs-3 text-dark">$<%=profit.profitThreshold%></h6>
+                                <h6 class="mb-0 fs-3 text-dark">$<%= Number(profit.stake) * 2 %></h6>
                               </div>
                             </li>
                             <li class="bg-light-subtle px-3 py-10 rounded-4 hstack gap-6">
@@ -415,8 +373,9 @@
                                 <iconify-icon icon="solar:pie-chart-line-duotone" class="fs-7 text-primary"></iconify-icon>
                               </div>
                               <div>
-                                <p class="mb-1 fs-2">Current Profit</p>
+                                <p class="mb-1 fs-2">Today's Profit</p>
                                 <h6 class="mb-0 fs-3 text-dark">$<%=profit.pnl%></h6>
+                                <input type="number" hidden id="amountQuery" value="<%=earnings.commission%>">
                               </div>
                             </li>
                           </ul>
